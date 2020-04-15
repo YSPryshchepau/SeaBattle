@@ -1,0 +1,22 @@
+<resources>
+    <string name="single_play_line">1 Игрок</string>
+    <string name="multi_play_line">2 Игрока</string>
+    <string name="exit_line">Выход</string>
+
+    <string name="start_single_deck_amount">4x</string>
+    <string name="start_double_deck_amount">3x</string>
+    <string name="start_three_deck_amount">2x</string>
+    <string name="start_four_deck_amount">1x</string>
+
+    <string name="random_disposal">Расставить</string>
+    <string name="next_line">Далее</string>
+
+    <string name="ship_disposal_line">Расстановка кораблей</string>
+    <string name="horizontal_line">Горизонтально</string>
+    <string name="vertical_line">Вертикально</string>
+
+    <string name="congratulatory_line">Победа досталась игроку</string>
+    <string name="next_game">ИГРАТЬ ЕЩЕ РАЗ</string>
+    <string name="to_menu">В ГЛАВНОЕ МЕНЮ</string>
+
+</resources>

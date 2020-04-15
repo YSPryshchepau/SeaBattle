@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:id="@+id/singleDeckText"
+        android:layout_width="44dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="22dp"
+        android:text="@string/start_single_deck_amount"
+        android:textColor="@android:color/background_dark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
+        app:layout_constraintEnd_toStartOf="@+id/singleDeckBtn" />
+
+    <TextView
+        android:id="@+id/doubleDeckText"
+        android:layout_width="44dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="88dp"
+        android:text="@string/start_double_deck_amount"
+        android:textColor="@android:color/background_dark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/doubleDeckBtn" />
+
+    <TextView
+        android:id="@+id/fourDeckText"
+        android:layout_width="44dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:text="@string/start_four_deck_amount"
+        android:textColor="@android:color/background_dark"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/fourDeckBtn"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <GridView
+        android:id="@+id/gvMain"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="false"
+        android:numColumns="10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="18dp"
+        android:text="@string/next_line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="235dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:text="@string/ship_disposal_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#d6d7d7"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playerNumberLabel"
+        android:layout_width="97dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="#d6d7d7"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/fourDeckBtn"
+        android:layout_width="30dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginRight="49dp"
+        android:onClick="onFourDeckBtn"
+        android:src="@drawable/not_clicked_four_deck_ship"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageButton
+        android:id="@+id/threeDeckBtn"
+        android:layout_width="30dp"
+        android:layout_height="86dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="94dp"
+        android:layout_marginRight="94dp"
+        android:onClick="onThreeDeckBtn"
+        android:src="@drawable/not_clicked_three_deck_ship"
+        app:layout_constraintEnd_toStartOf="@+id/fourDeckBtn"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageButton
+        android:id="@+id/doubleDeckBtn"
+        android:layout_width="30dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginRight="41dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="onDoubleDeckBtn"
+        android:src="@drawable/not_clicked_double_deck_ship"
+        app:layout_constraintBottom_toTopOf="@+id/RGShipOrientation"
+        app:layout_constraintEnd_toStartOf="@+id/singleDeckText" />
+
+    <ImageButton
+        android:id="@+id/singleDeckBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginRight="49dp"
+        android:layout_marginBottom="31dp"
+        android:onClick="onSingleDeckBtn"
+        android:src="@drawable/not_clicked_single_deck_ship"
+        app:layout_constraintBottom_toTopOf="@+id/nextBtn"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/threeDeckText"
+        android:layout_width="44dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:text="@string/start_three_deck_amount"
+        android:textColor="@android:color/background_dark"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/threeDeckBtn"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <RadioGroup
+        android:id="@+id/RGShipOrientation"
+        android:layout_width="152dp"
+        android:layout_height="72dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="3dp"
+        android:checkedButton="@+id/verticalRB"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nextBtn">
+
+        <RadioButton
+            android:id="@+id/verticalRB"
+            android:layout_width="143dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:text="@string/vertical_line"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textColor="#d6d7d7" />
+
+        <RadioButton
+            android:id="@+id/horizontalRB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/horizontal_line"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textColor="#d6d7d7" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/randomDisposalBtn"
+        android:layout_width="117dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/random_disposal"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

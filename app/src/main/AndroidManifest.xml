@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.serg.seabattle">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Sea Battle"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".activity.MainMenuActivity"
+            android:noHistory="true"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.disposal.SinglePlayerDisposalActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.disposal.FirstPlayerDisposalActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.disposal.SecondPlayerDisposalActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.battle.TwoPlayersBattleActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.FinalActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".activity.battle.SinglePlayerBattleActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" />
+    </application>
+
+</manifest>
