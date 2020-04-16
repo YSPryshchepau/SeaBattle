@@ -96,7 +96,9 @@ public class SinglePlayerBattleActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            new PlayerClickTask().execute(position);
+            if(battleParameter.isAttackSequence()) {
+                new PlayerClickTask().execute(position);
+            }
         }
     };
 
