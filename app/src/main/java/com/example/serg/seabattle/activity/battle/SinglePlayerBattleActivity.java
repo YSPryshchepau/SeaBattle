@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.ImageView;
 import com.example.serg.seabattle.R;
 import com.example.serg.seabattle.activity.FinalActivity;
 import com.example.serg.seabattle.activity.MainMenuActivity;
-import com.example.serg.seabattle.activity.disposal.PlayerDisposalActivity;
 import com.example.serg.seabattle.activity.disposal.SinglePlayerDisposalActivity;
 import com.example.serg.seabattle.adapter.CellArrayAdapter;
 import com.example.serg.seabattle.common.enums.ColorCellType;
@@ -25,7 +25,6 @@ import com.example.serg.seabattle.gameplay.entity.AutoPlayer;
 import com.example.serg.seabattle.gameplay.entity.BattleParameter;
 import com.example.serg.seabattle.gameplay.entity.Cell;
 import com.example.serg.seabattle.gameplay.service.AttackService;
-import com.example.serg.seabattle.gameplay.service.AutoDisposalService;
 import com.example.serg.seabattle.gameplay.service.AutoPlayerService;
 
 public class SinglePlayerBattleActivity extends Activity {
@@ -87,8 +86,8 @@ public class SinglePlayerBattleActivity extends Activity {
     private Cell[] getDisposal(String key) {
         Parcelable[] parcelables = getIntent().getParcelableArrayExtra(key);
         Cell[] disposal = new Cell[parcelables.length];
-        for(int i = 0; i < parcelables.length; i++) {
-            disposal[i] = (Cell)parcelables[i];
+        for (int i = 0; i < parcelables.length; i++) {
+            disposal[i] = (Cell) parcelables[i];
         }
         return disposal;
     }
@@ -97,40 +96,9 @@ public class SinglePlayerBattleActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Cell[] secondGrid = secondGridAdapter.getCells();
-            if (battleParameter.isAttackSequence() && attackService.isCellForAttackAllowed(position, secondGrid)) {
-                onGridViewCellClick(secondGridAdapter, position);
-                if (battleParameter.getSecondPlayerHitCounter() == 20) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException interruptedException) {
-                        warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
-                    } finally {
-                        goToFinalActivity(1);
-                    }
-                } else {
-                    autoPlayerAttack();
-                }
-            }
+            new PlayerClickTask().execute(position);
         }
     };
-
-    private void autoPlayerAttack() {
-        Cell[] firstGrid = firstGridAdapter.getCells();
-        while (!battleParameter.isAttackSequence()) {
-            int autoAttackPosition = autoPlayerService.attack(getApplicationContext(), autoPlayer, firstGrid);
-            onGridViewCellClick(firstGridAdapter, autoAttackPosition);
-        }
-        if (battleParameter.getFirstPlayerHitCounter() == 20) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException interruptedException) {
-                warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
-            } finally {
-                goToFinalActivity(2);
-            }
-        }
-    }
 
     private void goToFinalActivity(int playerNumber) {
         Intent intent = new Intent(getApplicationContext(), FinalActivity.class);
@@ -140,30 +108,8 @@ public class SinglePlayerBattleActivity extends Activity {
         startActivity(intent);
     }
 
-    private void onGridViewCellClick(CellArrayAdapter cellArrayAdapter, int position) {
-        Cell[] reformedCells = attackService.attackCell(cellArrayAdapter.getCells(), position);
-        cellArrayAdapter.setCells(reformedCells);
-        cellArrayAdapter.notifyDataSetChanged();
-        if(cellArrayAdapter.getCell(position).getPictureAddress() == ColorCellType.RED_CELL.colorID) {
-            if(!battleParameter.isAttackSequence()) {
-                battleParameter.increaseFirstPlayerHitCounter();
-            } else {
-                battleParameter.increaseSecondPlayerHitCounter();
-            }
-
-            if(attackService.isKillShip(cellArrayAdapter.getCells(), position)) {
-                reformedCells = attackService.markKilledShip(cellArrayAdapter.getCells(), position);
-                cellArrayAdapter.setCells(reformedCells);
-            }
-        } else {
-            battleParameter.toggleAttackSequence();
-            togglePlayerStepImage();
-        }
-        cellArrayAdapter.notifyDataSetChanged();
-    }
-
     private void togglePlayerStepImage() {
-        if(battleParameter.isAttackSequence()) {
+        if (battleParameter.isAttackSequence()) {
             playerStepImg.setImageResource(R.drawable.first_player_step);
         } else {
             playerStepImg.setImageResource(R.drawable.second_player_step);
@@ -201,4 +147,76 @@ public class SinglePlayerBattleActivity extends Activity {
 
         }
     };
+
+    private class PlayerClickTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Integer... args) {
+            int position = args[0];
+            Cell[] secondGrid = secondGridAdapter.getCells();
+            if (battleParameter.isAttackSequence() && attackService.isCellForAttackAllowed(position, secondGrid)) {
+                onGridViewCellClick(secondGridAdapter, position);
+                publishProgress();
+                if (battleParameter.getSecondPlayerHitCounter() == 20) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException interruptedException) {
+                        warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
+                    } finally {
+                        goToFinalActivity(1);
+                    }
+                } else {
+                    autoPlayerAttack();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... args) {
+                firstGridAdapter.notifyDataSetChanged();
+                secondGridAdapter.notifyDataSetChanged();
+                togglePlayerStepImage();
+        }
+
+        private void autoPlayerAttack() {
+            Cell[] firstGrid = firstGridAdapter.getCells();
+            while (!battleParameter.isAttackSequence()) {
+                int autoAttackPosition = autoPlayerService.attack(getApplicationContext(), autoPlayer, firstGrid);
+                onGridViewCellClick(firstGridAdapter, autoAttackPosition);
+            }
+            if (battleParameter.getFirstPlayerHitCounter() == 20) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException interruptedException) {
+                    warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
+                } finally {
+                    goToFinalActivity(2);
+                }
+            }
+        }
+
+        private void onGridViewCellClick(CellArrayAdapter cellArrayAdapter, int position) {
+            Cell[] reformedCells = attackService.attackCell(cellArrayAdapter.getCells(), position);
+            cellArrayAdapter.setCells(reformedCells);
+            publishProgress();
+            if (cellArrayAdapter.getCell(position).getPictureAddress() == ColorCellType.RED_CELL.colorID) {
+                if (!battleParameter.isAttackSequence()) {
+                    battleParameter.increaseFirstPlayerHitCounter();
+                } else {
+                    battleParameter.increaseSecondPlayerHitCounter();
+                }
+
+                if (attackService.isKillShip(cellArrayAdapter.getCells(), position)) {
+                    reformedCells = attackService.markKilledShip(cellArrayAdapter.getCells(), position);
+                    cellArrayAdapter.setCells(reformedCells);
+                    publishProgress();
+                }
+            } else {
+                battleParameter.toggleAttackSequence();
+                publishProgress();
+            }
+        }
+    }
 }
