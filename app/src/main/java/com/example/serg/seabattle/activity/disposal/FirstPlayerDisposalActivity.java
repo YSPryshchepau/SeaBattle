@@ -32,7 +32,7 @@ public class FirstPlayerDisposalActivity extends PlayerDisposalActivity {
                     FirstPlayerDisposalActivity.super.finish();
                     startActivity(intent);
                 } else {
-                    warningService.showWarning(getApplicationContext(), "Не все корабли расставлены!");
+                    warningService.showWarning(getApplicationContext(), getString(R.string.ships_not_disposed));
                 }
             }
         }

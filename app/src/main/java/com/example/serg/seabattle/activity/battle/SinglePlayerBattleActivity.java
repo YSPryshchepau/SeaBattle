@@ -185,7 +185,7 @@ public class SinglePlayerBattleActivity extends Activity {
         private void autoPlayerAttack() {
             Cell[] firstGrid = firstGridAdapter.getCells();
             while (!battleParameter.isAttackSequence()) {
-                int autoAttackPosition = autoPlayerService.attack(getApplicationContext(), autoPlayer, firstGrid);
+                int autoAttackPosition = autoPlayerService.getPositionForAttack(getApplicationContext(), autoPlayer, firstGrid);
                 onGridViewCellClick(firstGridAdapter, autoAttackPosition);
             }
             if (battleParameter.getFirstPlayerHitCounter() == 20) {

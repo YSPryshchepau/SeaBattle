@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.serg.seabattle.R;
 import com.example.serg.seabattle.activity.battle.SinglePlayerBattleActivity;
 import com.example.serg.seabattle.gameplay.entity.AutoPlayer;
 import com.example.serg.seabattle.gameplay.entity.Cell;
@@ -37,7 +38,7 @@ public class SinglePlayerDisposalActivity extends PlayerDisposalActivity{
                     SinglePlayerDisposalActivity.super.finish();
                     startActivity(intent);
                 } else {
-                    warningService.showWarning(getApplicationContext(), "Не все корабли расставлены!");
+                    warningService.showWarning(getApplicationContext(), getString(R.string.ships_not_disposed));
                 }
             }
         }

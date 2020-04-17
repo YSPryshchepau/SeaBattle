@@ -9,6 +9,8 @@ import com.example.serg.seabattle.gameplay.entity.AutoPlayer;
 import com.example.serg.seabattle.gameplay.entity.Cell;
 import com.example.serg.seabattle.gameplay.entity.Fleet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -47,7 +49,7 @@ public class AutoPlayerService {
         return cells;
     }
 
-    public int attack(Context context, AutoPlayer autoPlayer, Cell[] cells) {
+    public int getPositionForAttack(Context context, AutoPlayer autoPlayer, Cell[] cells) {
         try {
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException interruptedException) {
@@ -58,6 +60,7 @@ public class AutoPlayerService {
             autoPlayer.setFirstSuccessAttackPosition(-1);
             autoPlayer.setLastSuccessAttackPosition(-1);
             autoPlayer.setOrientation(null);
+            autoPlayer.resetAvailablePositions();
         }
         int position = setPosition(autoPlayer, cells);
         if(cells[position].getCellState() == CellState.OCCUPIED) {
@@ -108,44 +111,83 @@ public class AutoPlayerService {
     }
 
     private int setPositionByOrientation(Cell[] cells, AutoPlayer autoPlayer) {
+        int position;
+        if(autoPlayer.getOrientation()) {
+            position = setPositionForVerticalOrientation(cells, autoPlayer);
+        } else {
+            position = setPositionForHorizontalOrientation(cells, autoPlayer);
+        }
+
+        return position;
+    }
+
+    private int setPositionForVerticalOrientation(Cell[] cells, AutoPlayer autoPlayer) {
         int lastPos = autoPlayer.getLastSuccessAttackPosition();
         int firstPos = autoPlayer.getFirstSuccessAttackPosition();
         int position;
-
-        if(autoPlayer.getOrientation()) {
-            if (attackService.isCellForAttackAllowed(lastPos - 10, cells)) {
-                position = lastPos - 10;
-            } else if(attackService.isCellForAttackAllowed(lastPos + 10, cells)) {
-                position = lastPos + 10;
-            } else {
-                position = firstPos + 10;
-            }
+        if (attackService.isCellForAttackAllowed(lastPos - 10, cells)) {
+            position = lastPos - 10;
+        } else if(attackService.isCellForAttackAllowed(lastPos + 10, cells)) {
+            position = lastPos + 10;
+        } else if(attackService.isCellForAttackAllowed(firstPos + 10, cells)){
+            position = firstPos + 10;
         } else {
-            int x = converterService.setX(lastPos);
-            if (x != 9 && attackService.isCellForAttackAllowed(lastPos + 1, cells)) {
-                position = lastPos + 1;
-            } else {
-                position = firstPos - 1;
-            }
+            position = firstPos - 10;
+        }
+
+        return position;
+    }
+
+    private int setPositionForHorizontalOrientation(Cell[] cells, AutoPlayer autoPlayer) {
+        int lastPos = autoPlayer.getLastSuccessAttackPosition();
+        int firstPos = autoPlayer.getFirstSuccessAttackPosition();
+        int position;
+        int x = converterService.setX(lastPos);
+        if (x != 9 && attackService.isCellForAttackAllowed(lastPos + 1, cells)) {
+            position = lastPos + 1;
+        } else if (attackService.isCellForAttackAllowed(lastPos - 1, cells)) {
+            position = lastPos - 1;
+        } else if (attackService.isCellForAttackAllowed(firstPos - 1, cells)){
+            position = firstPos - 1;
+        } else {
+            position = firstPos + 1;
         }
 
         return position;
     }
 
     private int setPositionAfterFirstSuccessAttack(Cell[] cells, AutoPlayer autoPlayer) {
+        List<Integer> positions = autoPlayer.getAvailablePositions();
+        if(positions.size() == 0) {
+            addAvailablePositionsForAttack(cells, autoPlayer);
+        }
+        int index = generateIndex(autoPlayer);
+        int position = positions.get(index);
+        positions.remove(index);
+        return position;
+    }
+
+    private void addAvailablePositionsForAttack(Cell[] cells, AutoPlayer autoPlayer) {
         int lastSuccessPos = autoPlayer.getLastSuccessAttackPosition();
         int x = converterService.setX(lastSuccessPos);
-        int position;
+        List<Integer> positions = autoPlayer.getAvailablePositions();
         if (x != 9 && attackService.isCellForAttackAllowed(lastSuccessPos + 1, cells)) {
-            position = lastSuccessPos + 1;
-        } else if (x != 9 && attackService.isCellForAttackAllowed(lastSuccessPos - 1, cells)) {
-            position = lastSuccessPos - 1;
-        } else if (attackService.isCellForAttackAllowed(lastSuccessPos - 10, cells)) {
-            position = lastSuccessPos - 10;
-        } else {
-            position = lastSuccessPos + 10;
+            positions.add(lastSuccessPos + 1);
         }
-        return position;
+        if (x != 9 && attackService.isCellForAttackAllowed(lastSuccessPos - 1, cells)) {
+            positions.add(lastSuccessPos - 1);
+        }
+        if (attackService.isCellForAttackAllowed(lastSuccessPos - 10, cells)) {
+            positions.add(lastSuccessPos - 10);
+        }
+        if (attackService.isCellForAttackAllowed(lastSuccessPos + 10, cells)) {
+            positions.add(lastSuccessPos + 10);
+        }
+    }
+
+    private int generateIndex(AutoPlayer autoPlayer) {
+        int size = autoPlayer.getAvailablePositions().size();
+        return randomGenerator.nextInt(size);
     }
     /*
     * orientation == true - vertical disposal
@@ -153,14 +195,11 @@ public class AutoPlayerService {
     * */
     private boolean calculateOrientation(AutoPlayer autoPlayer) {
         int firstPos = autoPlayer.getFirstSuccessAttackPosition();
-        int firstX = converterService.setX(firstPos);
+        int firstY = converterService.setY(firstPos);
 
         int lastPos = autoPlayer.getLastSuccessAttackPosition();
-        int lastX = converterService.setX(lastPos);
+        int lastY = converterService.setY(lastPos);
 
-        if(lastX - 1 == firstX || lastX + 1 == firstX) {
-            return false;
-        }
-            return true;
+        return lastY - 1 == firstY || lastY + 1 == firstY;
     }
 }

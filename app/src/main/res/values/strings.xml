@@ -10,6 +10,7 @@
 
     <string name="random_disposal">Расставить</string>
     <string name="next_line">Далее</string>
+    <string name="ships_not_disposed">Не все корабли расставлены!</string>
 
     <string name="ship_disposal_line">Расстановка кораблей</string>
     <string name="horizontal_line">Горизонтально</string>

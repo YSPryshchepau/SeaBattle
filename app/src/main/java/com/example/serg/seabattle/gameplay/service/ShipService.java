@@ -18,7 +18,7 @@ public class ShipService {
     }
 
     public boolean isShipOrientation(Cell[][] placementCells, int x, int y){ //true - vertical, false - horizontal, single-deck ship will always vertical for this method
-        if(x > 1 && placementCells[y][x].getShipSize() == placementCells[y][x - 1].getShipSize()){
+        if(x > 0 && placementCells[y][x].getShipSize() == placementCells[y][x - 1].getShipSize()){
             return false;
         }
         if(x < 9 && placementCells[y][x].getShipSize() == placementCells[y][x + 1].getShipSize()){

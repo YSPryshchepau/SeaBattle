@@ -41,7 +41,7 @@ public class SecondPlayerDisposalActivity extends FirstPlayerDisposalActivity {
                 SecondPlayerDisposalActivity.super.finish();
                 startActivity(intent);
             } else {
-                warningService.showWarning(getApplicationContext(), "Не все корабли расставлены!");
+                warningService.showWarning(getApplicationContext(), getString(R.string.ships_not_disposed));
             }
         }
     };
