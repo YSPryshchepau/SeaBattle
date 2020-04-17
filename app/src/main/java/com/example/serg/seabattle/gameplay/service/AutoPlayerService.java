@@ -49,12 +49,8 @@ public class AutoPlayerService {
         return cells;
     }
 
-    public int getPositionForAttack(Context context, AutoPlayer autoPlayer, Cell[] cells) {
-        try {
-            TimeUnit.MILLISECONDS.sleep(500);
-        } catch (InterruptedException interruptedException) {
-            warningService.showWarning(context, interruptedException.getMessage());
-        }
+    public int getPositionForAttack(AutoPlayer autoPlayer, Cell[] cells) {
+
         int oldPosition = autoPlayer.getLastSuccessAttackPosition();
         if (oldPosition != -1 && cells[oldPosition].getPictureAddress() == ColorCellType.CRIMSON_CELL.colorID) {
             autoPlayer.setFirstSuccessAttackPosition(-1);
@@ -174,7 +170,7 @@ public class AutoPlayerService {
         if (x != 9 && attackService.isCellForAttackAllowed(lastSuccessPos + 1, cells)) {
             positions.add(lastSuccessPos + 1);
         }
-        if (x != 9 && attackService.isCellForAttackAllowed(lastSuccessPos - 1, cells)) {
+        if (attackService.isCellForAttackAllowed(lastSuccessPos - 1, cells)) {
             positions.add(lastSuccessPos - 1);
         }
         if (attackService.isCellForAttackAllowed(lastSuccessPos - 10, cells)) {

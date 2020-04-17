@@ -160,13 +160,7 @@ public class SinglePlayerBattleActivity extends Activity {
                 onGridViewCellClick(secondGridAdapter, position);
                 publishProgress();
                 if (battleParameter.getSecondPlayerHitCounter() == 20) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException interruptedException) {
-                        warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
-                    } finally {
-                        goToFinalActivity(1);
-                    }
+                    congratulateWinner(1);
                 } else {
                     autoPlayerAttack();
                 }
@@ -185,17 +179,26 @@ public class SinglePlayerBattleActivity extends Activity {
         private void autoPlayerAttack() {
             Cell[] firstGrid = firstGridAdapter.getCells();
             while (!battleParameter.isAttackSequence()) {
-                int autoAttackPosition = autoPlayerService.getPositionForAttack(getApplicationContext(), autoPlayer, firstGrid);
-                onGridViewCellClick(firstGridAdapter, autoAttackPosition);
-            }
-            if (battleParameter.getFirstPlayerHitCounter() == 20) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException interruptedException) {
                     warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
-                } finally {
-                    goToFinalActivity(2);
                 }
+                int autoAttackPosition = autoPlayerService.getPositionForAttack(autoPlayer, firstGrid);
+                onGridViewCellClick(firstGridAdapter, autoAttackPosition);
+                if (battleParameter.getFirstPlayerHitCounter() == 20) {
+                    congratulateWinner(2);
+                }
+            }
+        }
+
+        private void congratulateWinner(int winnerNumber) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException interruptedException) {
+                warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
+            } finally {
+                goToFinalActivity(winnerNumber);
             }
         }
 
