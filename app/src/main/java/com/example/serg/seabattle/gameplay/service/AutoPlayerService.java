@@ -1,7 +1,5 @@
 package com.example.serg.seabattle.gameplay.service;
 
-import android.content.Context;
-
 import com.example.serg.seabattle.common.enums.CellState;
 import com.example.serg.seabattle.common.enums.ColorCellType;
 import com.example.serg.seabattle.common.service.WarningService;
@@ -9,10 +7,8 @@ import com.example.serg.seabattle.gameplay.entity.AutoPlayer;
 import com.example.serg.seabattle.gameplay.entity.Cell;
 import com.example.serg.seabattle.gameplay.entity.Fleet;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class AutoPlayerService {
     private static AutoPlayerService autoPlayerService;
@@ -32,7 +28,7 @@ public class AutoPlayerService {
     }
 
     public static AutoPlayerService getAutoPlayerService() {
-        if(autoPlayerService == null) {
+        if (autoPlayerService == null) {
             autoPlayerService = new AutoPlayerService();
         }
         return autoPlayerService;
@@ -59,8 +55,8 @@ public class AutoPlayerService {
             autoPlayer.resetAvailablePositions();
         }
         int position = setPosition(autoPlayer, cells);
-        if(cells[position].getCellState() == CellState.OCCUPIED) {
-            if(autoPlayer.getFirstSuccessAttackPosition() == -1) {
+        if (cells[position].getCellState() == CellState.OCCUPIED) {
+            if (autoPlayer.getFirstSuccessAttackPosition() == -1) {
                 autoPlayer.setFirstSuccessAttackPosition(position);
             }
             autoPlayer.setLastSuccessAttackPosition(position);
@@ -72,7 +68,7 @@ public class AutoPlayerService {
     private int setPosition(AutoPlayer autoPlayer, Cell[] cells) {
         int position = autoPlayer.getLastSuccessAttackPosition();
 
-        if(position == -1) {
+        if (position == -1) {
             position = generatePosition(cells);
         } else {
             position = setPositionNearAttackedCell(cells, autoPlayer);
@@ -85,7 +81,7 @@ public class AutoPlayerService {
         int position;
         do {
             position = randomGenerator.nextInt(100);
-        } while(cells[position].getPictureAddress() != ColorCellType.WHITE_CELL.colorID);
+        } while (cells[position].getPictureAddress() != ColorCellType.WHITE_CELL.colorID);
         return position;
     }
 
@@ -93,7 +89,7 @@ public class AutoPlayerService {
         int position;
         int firstPos = autoPlayer.getFirstSuccessAttackPosition();
         int lastPos = autoPlayer.getLastSuccessAttackPosition();
-        if(firstPos == lastPos) {
+        if (firstPos == lastPos) {
             position = setPositionAfterFirstSuccessAttack(cells, autoPlayer);
         } else {
             if (autoPlayer.getOrientation() == null) {
@@ -108,7 +104,7 @@ public class AutoPlayerService {
 
     private int setPositionByOrientation(Cell[] cells, AutoPlayer autoPlayer) {
         int position;
-        if(autoPlayer.getOrientation()) {
+        if (autoPlayer.getOrientation()) {
             position = setPositionForVerticalOrientation(cells, autoPlayer);
         } else {
             position = setPositionForHorizontalOrientation(cells, autoPlayer);
@@ -123,9 +119,9 @@ public class AutoPlayerService {
         int position;
         if (attackService.isCellForAttackAllowed(lastPos - 10, cells)) {
             position = lastPos - 10;
-        } else if(attackService.isCellForAttackAllowed(lastPos + 10, cells)) {
+        } else if (attackService.isCellForAttackAllowed(lastPos + 10, cells)) {
             position = lastPos + 10;
-        } else if(attackService.isCellForAttackAllowed(firstPos + 10, cells)){
+        } else if (attackService.isCellForAttackAllowed(firstPos + 10, cells)) {
             position = firstPos + 10;
         } else {
             position = firstPos - 10;
@@ -143,7 +139,7 @@ public class AutoPlayerService {
             position = lastPos + 1;
         } else if (attackService.isCellForAttackAllowed(lastPos - 1, cells)) {
             position = lastPos - 1;
-        } else if (attackService.isCellForAttackAllowed(firstPos - 1, cells)){
+        } else if (attackService.isCellForAttackAllowed(firstPos - 1, cells)) {
             position = firstPos - 1;
         } else {
             position = firstPos + 1;
@@ -154,7 +150,7 @@ public class AutoPlayerService {
 
     private int setPositionAfterFirstSuccessAttack(Cell[] cells, AutoPlayer autoPlayer) {
         List<Integer> positions = autoPlayer.getAvailablePositions();
-        if(positions.size() == 0) {
+        if (positions.size() == 0) {
             addAvailablePositionsForAttack(cells, autoPlayer);
         }
         int index = generateIndex(autoPlayer);
@@ -185,10 +181,11 @@ public class AutoPlayerService {
         int size = autoPlayer.getAvailablePositions().size();
         return randomGenerator.nextInt(size);
     }
+
     /*
-    * orientation == true - vertical disposal
-    * orientation == false - horizontal disposal
-    * */
+     * orientation == true - vertical disposal
+     * orientation == false - horizontal disposal
+     * */
     private boolean calculateOrientation(AutoPlayer autoPlayer) {
         int firstPos = autoPlayer.getFirstSuccessAttackPosition();
         int firstY = converterService.setY(firstPos);

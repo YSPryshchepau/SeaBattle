@@ -7,11 +7,10 @@ import android.widget.Button;
 
 import com.example.serg.seabattle.R;
 import com.example.serg.seabattle.activity.battle.SinglePlayerBattleActivity;
-import com.example.serg.seabattle.gameplay.entity.AutoPlayer;
 import com.example.serg.seabattle.gameplay.entity.Cell;
 import com.example.serg.seabattle.gameplay.service.AutoPlayerService;
 
-public class SinglePlayerDisposalActivity extends PlayerDisposalActivity{
+public class SinglePlayerDisposalActivity extends PlayerDisposalActivity {
     public static final String INTENT_KEY_1 = "playerBattlefield";
     public static final String INTENT_KEY_2 = "computerBattlefield";
 

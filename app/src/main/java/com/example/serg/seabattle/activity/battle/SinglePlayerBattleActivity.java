@@ -96,7 +96,7 @@ public class SinglePlayerBattleActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if(battleParameter.isAttackSequence()) {
+            if (battleParameter.isAttackSequence()) {
                 new PlayerClickTask().execute(position);
             }
         }
@@ -171,9 +171,9 @@ public class SinglePlayerBattleActivity extends Activity {
 
         @Override
         protected void onProgressUpdate(Void... args) {
-                firstGridAdapter.notifyDataSetChanged();
-                secondGridAdapter.notifyDataSetChanged();
-                togglePlayerStepImage();
+            firstGridAdapter.notifyDataSetChanged();
+            secondGridAdapter.notifyDataSetChanged();
+            togglePlayerStepImage();
         }
 
         private void autoPlayerAttack() {

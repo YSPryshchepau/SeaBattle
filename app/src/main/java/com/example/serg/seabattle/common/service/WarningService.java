@@ -11,7 +11,7 @@ public class WarningService {
     }
 
     public static WarningService getWarningService() {
-        if(warningService == null) {
+        if (warningService == null) {
             warningService = new WarningService();
         }
         return warningService;

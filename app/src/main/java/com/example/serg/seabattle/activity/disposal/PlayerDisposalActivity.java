@@ -48,6 +48,7 @@ public abstract class PlayerDisposalActivity extends Activity {
     public Cell[] getCells() {
         return cells;
     }
+
     public void setCells(Cell[] cells) {
         this.cells = cells;
     }
@@ -112,7 +113,7 @@ public abstract class PlayerDisposalActivity extends Activity {
 
         @Override
         public void onClick(View view) {
-            RadioButton radioButton = (RadioButton)view;
+            RadioButton radioButton = (RadioButton) view;
             switch (radioButton.getId()) {
                 case R.id.horizontalRB: {
                     ship.setOrientation(false);
@@ -154,7 +155,7 @@ public abstract class PlayerDisposalActivity extends Activity {
 
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            if(manualDisposalService.isRemoveShipAllowed(adapter.getCell(position))) {
+            if (manualDisposalService.isRemoveShipAllowed(adapter.getCell(position))) {
                 int deckNumber;
                 deckNumber = adapter.getCell(position).getShipSize();
                 clickedShipType = ShipType.findElementByDeckNumber(deckNumber);
@@ -187,8 +188,7 @@ public abstract class PlayerDisposalActivity extends Activity {
                 adapter.notifyDataSetChanged();
 
                 tuneInactiveAllButtons();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 warningService.showWarning(getApplicationContext(), e.getMessage());
             }
         }
@@ -204,8 +204,7 @@ public abstract class PlayerDisposalActivity extends Activity {
                 } else {
                     tuneInactiveButton();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 warningService.showWarning(getApplicationContext(), e.getMessage());
             }
         }
@@ -222,9 +221,8 @@ public abstract class PlayerDisposalActivity extends Activity {
         tuneTextView(changedText, shipType);
     }
 
-    private void tuneTextView(String changedText, ShipType shipType)
-    {
-        ((TextView)findViewById(shipType.textID)).setText(changedText);
+    private void tuneTextView(String changedText, ShipType shipType) {
+        ((TextView) findViewById(shipType.textID)).setText(changedText);
     }
 
     private void chooseActiveButton(View view) {
@@ -248,27 +246,27 @@ public abstract class PlayerDisposalActivity extends Activity {
         }
         tuneActiveButton(clickedShipType);
     }
+
     private void tuneActiveButton(ShipType shipType) {
         int shipAmount = fleetService.getShipAmountByDeckNumber(fleet, shipType.deckNumber);
-        if(shipAmount - 1 > 0) {
-            ((ImageButton)findViewById(shipType.buttonID)).setImageResource(shipType.clickedPicture);
-        }
-        else if(shipAmount - 1 == 0) {
-            ((ImageButton)findViewById(shipType.buttonID)).setImageResource(shipType.emptyPicture);
+        if (shipAmount - 1 > 0) {
+            ((ImageButton) findViewById(shipType.buttonID)).setImageResource(shipType.clickedPicture);
+        } else if (shipAmount - 1 == 0) {
+            ((ImageButton) findViewById(shipType.buttonID)).setImageResource(shipType.emptyPicture);
         }
     }
 
     private void tuneInactiveButton() {
         int shipAmount = fleetService.getShipAmountByDeckNumber(fleet, clickedShipType.deckNumber);
         if (shipAmount > 0) {
-            ((ImageButton)findViewById(clickedShipType.buttonID)).setImageResource(clickedShipType.notClickedPicture);
+            ((ImageButton) findViewById(clickedShipType.buttonID)).setImageResource(clickedShipType.notClickedPicture);
         }
         clickedShipType = null;
     }
 
     private void tuneInactiveAllButtons() {
-        for(ShipType shipType: ShipType.values()) {
-            ((ImageButton)findViewById(shipType.buttonID)).setImageResource(shipType.emptyPicture);
+        for (ShipType shipType : ShipType.values()) {
+            ((ImageButton) findViewById(shipType.buttonID)).setImageResource(shipType.emptyPicture);
             changeTextView(0, shipType);
         }
     }

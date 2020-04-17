@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import com.example.serg.seabattle.R;
 import com.example.serg.seabattle.activity.FinalActivity;
 import com.example.serg.seabattle.activity.MainMenuActivity;
-import com.example.serg.seabattle.activity.disposal.PlayerDisposalActivity;
 import com.example.serg.seabattle.activity.disposal.SecondPlayerDisposalActivity;
 import com.example.serg.seabattle.adapter.CellArrayAdapter;
 import com.example.serg.seabattle.common.enums.ColorCellType;
@@ -81,8 +80,8 @@ public class TwoPlayersBattleActivity extends Activity {
     private Cell[] getDisposal(String key) {
         Parcelable[] parcelables = getIntent().getParcelableArrayExtra(key);
         Cell[] disposal = new Cell[parcelables.length];
-        for(int i = 0; i < parcelables.length; i++) {
-            disposal[i] = (Cell)parcelables[i];
+        for (int i = 0; i < parcelables.length; i++) {
+            disposal[i] = (Cell) parcelables[i];
         }
         return disposal;
     }
@@ -92,7 +91,7 @@ public class TwoPlayersBattleActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             int cellColor = firstGridAdapter.getCell(position).getPictureAddress();
-            if (!battleParameter.isAttackSequence()  && cellColor == ColorCellType.WHITE_CELL.colorID) {
+            if (!battleParameter.isAttackSequence() && cellColor == ColorCellType.WHITE_CELL.colorID) {
                 onGridViewCellClick(firstGridAdapter, position);
 
                 if (battleParameter.getFirstPlayerHitCounter() == 20) {
@@ -100,8 +99,7 @@ public class TwoPlayersBattleActivity extends Activity {
                         Thread.sleep(1000);
                     } catch (InterruptedException interruptedException) {
                         warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
-                    }
-                    finally {
+                    } finally {
                         goToFinalActivity(2);
                     }
                 }
@@ -121,8 +119,7 @@ public class TwoPlayersBattleActivity extends Activity {
                         Thread.sleep(1000);
                     } catch (InterruptedException interruptedException) {
                         warningService.showWarning(getApplicationContext(), interruptedException.getMessage());
-                    }
-                    finally {
+                    } finally {
                         goToFinalActivity(1);
                     }
                 }
@@ -142,14 +139,14 @@ public class TwoPlayersBattleActivity extends Activity {
     private void onGridViewCellClick(CellArrayAdapter cellArrayAdapter, int position) {
         Cell[] reformedCells = attackService.attackCell(cellArrayAdapter.getCells(), position);
         cellArrayAdapter.setCells(reformedCells);
-        if(cellArrayAdapter.getCell(position).getPictureAddress() == ColorCellType.RED_CELL.colorID) {
-            if(!battleParameter.isAttackSequence()) {
+        if (cellArrayAdapter.getCell(position).getPictureAddress() == ColorCellType.RED_CELL.colorID) {
+            if (!battleParameter.isAttackSequence()) {
                 battleParameter.increaseFirstPlayerHitCounter();
             } else {
                 battleParameter.increaseSecondPlayerHitCounter();
             }
 
-            if(attackService.isKillShip(cellArrayAdapter.getCells(), position)) {
+            if (attackService.isKillShip(cellArrayAdapter.getCells(), position)) {
                 reformedCells = attackService.markKilledShip(cellArrayAdapter.getCells(), position);
                 cellArrayAdapter.setCells(reformedCells);
             }
@@ -161,7 +158,7 @@ public class TwoPlayersBattleActivity extends Activity {
     }
 
     private void togglePlayerStepImage() {
-        if(battleParameter.isAttackSequence()) {
+        if (battleParameter.isAttackSequence()) {
             playerStepImg.setImageResource(R.drawable.first_player_step);
         } else {
             playerStepImg.setImageResource(R.drawable.second_player_step);

@@ -1,9 +1,9 @@
 package com.example.serg.seabattle.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -12,7 +12,6 @@ import android.widget.Button;
 
 import com.example.serg.seabattle.R;
 import com.example.serg.seabattle.activity.disposal.FirstPlayerDisposalActivity;
-import com.example.serg.seabattle.activity.disposal.PlayerDisposalActivity;
 import com.example.serg.seabattle.activity.disposal.SinglePlayerDisposalActivity;
 
 public class MainMenuActivity extends Activity {

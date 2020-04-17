@@ -2,7 +2,7 @@ package com.example.serg.seabattle.common.enums;
 
 import com.example.serg.seabattle.R;
 
-public enum ShipType{
+public enum ShipType {
     FOUR_DECK(R.id.fourDeckBtn, R.id.fourDeckText, 4, 0,
             R.drawable.not_clicked_four_deck_ship, R.drawable.clicked_four_deck_ship, R.drawable.empty_four_deck_ship),
     THREE_DECK(R.id.threeDeckBtn, R.id.threeDeckText, 3, 1,
@@ -32,8 +32,8 @@ public enum ShipType{
     }
 
     public static ShipType findElementByDeckNumber(int deckNumber) {
-        for(ShipType shipType: ShipType.values()) {
-            if(shipType.deckNumber == deckNumber) {
+        for (ShipType shipType : ShipType.values()) {
+            if (shipType.deckNumber == deckNumber) {
                 return shipType;
             }
         }
