@@ -1,7 +1,7 @@
 package com.example.serg.seabattle.gameplay.entity;
 
 public class BattleParameter {
-    private boolean attackSequence;// true is 1st player turn to attack, false - 2nd player
+    private boolean attackSequence;
     private int firstPlayerHitCounter;
     private int secondPlayerHitCounter;
 
@@ -12,10 +12,9 @@ public class BattleParameter {
     }
 
     public void toggleAttackSequence() {
-        if(attackSequence) {
+        if (attackSequence) {
             attackSequence = false;
-        }
-        else{
+        } else {
             attackSequence = true;
         }
     }

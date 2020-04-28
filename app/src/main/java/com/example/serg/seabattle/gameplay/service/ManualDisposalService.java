@@ -1,7 +1,7 @@
 package com.example.serg.seabattle.gameplay.service;
 
-import com.example.serg.seabattle.common.enums.ColorCellType;
 import com.example.serg.seabattle.common.enums.CellState;
+import com.example.serg.seabattle.common.enums.ColorCellType;
 import com.example.serg.seabattle.gameplay.entity.Cell;
 
 public class ManualDisposalService {
@@ -16,15 +16,15 @@ public class ManualDisposalService {
     }
 
     public static ManualDisposalService getManualDisposalService() {
-        if(manualDisposalService == null) {
+        if (manualDisposalService == null) {
             manualDisposalService = new ManualDisposalService();
         }
         return manualDisposalService;
     }
 
-    public boolean isSetShipAllowed(Cell[] cells, int position, int deckNumber, boolean orientation){
-        if(deckNumber > 0){
-            if(cells[position].getCellState() == CellState.EMPTY){
+    public boolean isSetShipAllowed(Cell[] cells, int position, int deckNumber, boolean orientation) {
+        if (deckNumber > 0) {
+            if (cells[position].getCellState() == CellState.EMPTY) {
                 Cell[][] placementCells = converterService.toPlacementCells(cells);
                 int x = converterService.setX(position);
                 int y = converterService.setY(position);
@@ -41,14 +41,14 @@ public class ManualDisposalService {
         int x = converterService.setX(position);
         int y = converterService.setY(position);
 
-        if (orientation) {//vertical orientation
+        if (orientation) {
             if (y + deckNumber - 1 < 10) {
                 setVerticalShipCells(deckNumber, placementCells, x, y);
             } else {
                 y = y - deckNumber + 1;
                 setVerticalShipCells(deckNumber, placementCells, x, y);
             }
-        } else {//horizontal orientation
+        } else {
             if (x + deckNumber - 1 < 10) {
                 setHorizontalShipCells(deckNumber, placementCells, x, y);
             } else {
@@ -68,6 +68,7 @@ public class ManualDisposalService {
             setHorizontalUnavailableCells(deckNumber, deckCounter, i, placementCells, y);
         }
     }
+
     private void setHorizontalUnavailableCells(int deckNumber, int deckCounter, int i, Cell[][] placementCells, int y) {
         if (deckCounter == 1) {
             if (i > 0) {
@@ -109,7 +110,8 @@ public class ManualDisposalService {
             setVerticalUnavailableCells(deckNumber, deckCounter, i, placementCells, x);
         }
     }
-    private void setVerticalUnavailableCells(int deckNumber, int deckCounter, int i, Cell[][] placementCells, int x) {// int i is cycle's iterator
+
+    private void setVerticalUnavailableCells(int deckNumber, int deckCounter, int i, Cell[][] placementCells, int x) {
         if (deckCounter == 1) {
             if (i > 0) {
                 setNearShipCell(placementCells[i - 1][x]);
@@ -142,39 +144,37 @@ public class ManualDisposalService {
         }
     }
 
-    private void setShipCell(Cell cell, int deckNumber){
+    private void setShipCell(Cell cell, int deckNumber) {
         cell.setPictureAddress(ColorCellType.GREEN_CELL.colorID);
         cell.setShipSize(deckNumber);
         cell.setCellState(CellState.OCCUPIED);
     }
-    private void setNearShipCell(Cell cell){
+
+    private void setNearShipCell(Cell cell) {
         cell.increaseNearShipCounter();
         cell.setCellState(CellState.UNAVAILABLE);
         cell.setPictureAddress(ColorCellType.RED_CELL.colorID);
     }
 
-    private boolean isCellsAvailable(int deckNumber, boolean orientation, Cell[][] placementCells, int x, int y){
+    private boolean isCellsAvailable(int deckNumber, boolean orientation, Cell[][] placementCells, int x, int y) {
         boolean cellsComparator;
         Cell tempCell;
-        if(orientation) {
+        if (orientation) {
             if (y + deckNumber - 1 < 10) {
                 tempCell = placementCells[y + deckNumber - 1][x];
                 cellsComparator = tempCell.getCellState() == CellState.EMPTY;
                 return cellsComparator;
-            }
-            else {
+            } else {
                 tempCell = placementCells[y - deckNumber + 1][x];
                 cellsComparator = tempCell.getCellState() == CellState.EMPTY;
                 return cellsComparator;
             }
-        }
-        else{
+        } else {
             if (x + deckNumber - 1 < 10) {
                 tempCell = placementCells[y][x + deckNumber - 1];
                 cellsComparator = tempCell.getCellState() == CellState.EMPTY;
                 return cellsComparator;
-            }
-            else {
+            } else {
                 tempCell = placementCells[y][x - deckNumber + 1];
                 cellsComparator = tempCell.getCellState() == CellState.EMPTY;
                 return cellsComparator;
@@ -182,20 +182,19 @@ public class ManualDisposalService {
         }
     }
 
-    public Cell[] removeShip(Cell[] cells, int position){
+    public Cell[] removeShip(Cell[] cells, int position) {
         Cell[][] placementCells = converterService.toPlacementCells(cells);
         int x = converterService.setX(position);
         int y = converterService.setY(position);
         int deckNumber = cells[position].getShipSize();
 
-        if(shipService.isShipOrientation(placementCells, x, y)) {
+        if (shipService.isShipOrientation(placementCells, x, y)) {
             while (y > 1 && placementCells[y][x].getShipSize() == placementCells[y - 1][x].getShipSize()) {
                 y -= 1;
 
             }
             removeVerticalShipCells(deckNumber, placementCells, x, y);
-        }
-        else{
+        } else {
             while (x > 1 && placementCells[y][x].getShipSize() == placementCells[y][x - 1].getShipSize()) {
                 x -= 1;
             }
@@ -211,6 +210,7 @@ public class ManualDisposalService {
             removeHorizontalUnavailableCells(deckNumber, deckCounter, i, placementCells, y);
         }
     }
+
     private void removeHorizontalUnavailableCells(int deckNumber, int deckCounter, int i, Cell[][] placementCells, int y) {
         if (deckCounter == 1) {
             if (i > 0) {
@@ -245,13 +245,14 @@ public class ManualDisposalService {
         }
     }
 
-    private void removeVerticalShipCells(int deckNumber, Cell[][] placementCells, int x, int y){
+    private void removeVerticalShipCells(int deckNumber, Cell[][] placementCells, int x, int y) {
         int deckCounter = 1;
-        for(int i = y; i < y + deckNumber; i++, deckCounter++){
+        for (int i = y; i < y + deckNumber; i++, deckCounter++) {
             removeShipCell(placementCells[i][x]);
             removeVerticalUnavailableCells(deckNumber, deckCounter, i, placementCells, x);
         }
     }
+
     private void removeVerticalUnavailableCells(int deckNumber, int deckCounter, int i, Cell[][] placementCells, int x) {
         if (deckCounter == 1) {
             if (i > 0) {
@@ -291,15 +292,16 @@ public class ManualDisposalService {
         cell.setShipSize(0);
         cell.setCellState(CellState.EMPTY);
     }
+
     private void removeNearShipCell(Cell cell) {
         cell.decreaseNearShipCounter();
-        if (cell.getNearShipCounter() < 1){
+        if (cell.getNearShipCounter() < 1) {
             cell.setCellState(CellState.EMPTY);
             cell.setPictureAddress(ColorCellType.WHITE_CELL.colorID);
         }
     }
 
-    public boolean isRemoveShipAllowed(Cell cell){
+    public boolean isRemoveShipAllowed(Cell cell) {
         return cell.getCellState() == CellState.OCCUPIED;
     }
 }

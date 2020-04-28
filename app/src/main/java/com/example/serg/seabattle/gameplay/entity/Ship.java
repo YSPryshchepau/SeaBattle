@@ -6,6 +6,7 @@ public class Ship {
     public void setOrientation(boolean orientation) {
         this.orientation = orientation;
     }
+
     public boolean isOrientation() {
         return orientation;
     }

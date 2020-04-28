@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.serg.seabattle.R;
 
 
@@ -32,7 +33,7 @@ public class FirstPlayerDisposalActivity extends PlayerDisposalActivity {
                     FirstPlayerDisposalActivity.super.finish();
                     startActivity(intent);
                 } else {
-                    warningService.showWarning(getApplicationContext(), "Не все корабли расставлены!");
+                    warningService.showWarning(getApplicationContext(), getString(R.string.ships_not_disposed));
                 }
             }
         }

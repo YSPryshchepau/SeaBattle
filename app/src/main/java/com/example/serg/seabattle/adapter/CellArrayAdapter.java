@@ -24,6 +24,7 @@ public class CellArrayAdapter extends BaseAdapter {
     public int getCount() {
         return cells.length;
     }
+
     @Override
     public Object getItem(int position) {
         return cells[position];
@@ -33,9 +34,9 @@ public class CellArrayAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // используем созданные, но не используемые view
         View view = convertView;
         if (view == null) {
             view = lInflater.inflate(R.layout.adapter_layout, parent, false);
@@ -44,6 +45,7 @@ public class CellArrayAdapter extends BaseAdapter {
 
         return view;
     }
+
     public Cell getCell(int position) {
         return cells[position];
     }

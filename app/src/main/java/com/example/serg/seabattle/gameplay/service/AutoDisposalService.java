@@ -18,7 +18,7 @@ public class AutoDisposalService {
     }
 
     public static AutoDisposalService getAutoDisposalService() {
-        if(autoDisposalService == null) {
+        if (autoDisposalService == null) {
             autoDisposalService = new AutoDisposalService();
         }
         return autoDisposalService;
@@ -30,7 +30,7 @@ public class AutoDisposalService {
         while (fleet.getFourDeckShipsAmount() != 0) {
             orientation = generateRandomOrientation();
             position = generateRandomPosition();
-            if(manualDisposalService.isSetShipAllowed(cells, position, ShipType.FOUR_DECK.deckNumber, orientation)) {
+            if (manualDisposalService.isSetShipAllowed(cells, position, ShipType.FOUR_DECK.deckNumber, orientation)) {
                 cells = manualDisposalService.setShip(cells, position, ShipType.FOUR_DECK.deckNumber, orientation);
                 fleet.decreaseFourDeckShipsAmount();
             }
@@ -39,7 +39,7 @@ public class AutoDisposalService {
         while (fleet.getThreeDeckShipsAmount() != 0) {
             orientation = generateRandomOrientation();
             position = generateRandomPosition();
-            if(manualDisposalService.isSetShipAllowed(cells, position, ShipType.THREE_DECK.deckNumber, orientation)) {
+            if (manualDisposalService.isSetShipAllowed(cells, position, ShipType.THREE_DECK.deckNumber, orientation)) {
                 cells = manualDisposalService.setShip(cells, position, ShipType.THREE_DECK.deckNumber, orientation);
                 fleet.decreaseThreeDeckShipsAmount();
             }
@@ -47,7 +47,7 @@ public class AutoDisposalService {
         while (fleet.getDoubleDeckShipsAmount() != 0) {
             orientation = generateRandomOrientation();
             position = generateRandomPosition();
-            if(manualDisposalService.isSetShipAllowed(cells, position, ShipType.DOUBLE_DECK.deckNumber, orientation)) {
+            if (manualDisposalService.isSetShipAllowed(cells, position, ShipType.DOUBLE_DECK.deckNumber, orientation)) {
                 cells = manualDisposalService.setShip(cells, position, ShipType.DOUBLE_DECK.deckNumber, orientation);
                 fleet.decreaseDoubleDeckShipsAmount();
             }
@@ -55,7 +55,7 @@ public class AutoDisposalService {
         while (fleet.getSingleDeckShipsAmount() != 0) {
             orientation = generateRandomOrientation();
             position = generateRandomPosition();
-            if(manualDisposalService.isSetShipAllowed(cells, position, ShipType.SINGLE_DECK.deckNumber, orientation)) {
+            if (manualDisposalService.isSetShipAllowed(cells, position, ShipType.SINGLE_DECK.deckNumber, orientation)) {
                 cells = manualDisposalService.setShip(cells, position, ShipType.SINGLE_DECK.deckNumber, orientation);
                 fleet.decreaseSingleDeckShipsAmount();
             }

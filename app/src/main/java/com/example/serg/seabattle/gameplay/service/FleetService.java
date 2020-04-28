@@ -10,7 +10,7 @@ public class FleetService {
     }
 
     public static FleetService getFleetService() {
-        if(fleetService == null) {
+        if (fleetService == null) {
             fleetService = new FleetService();
         }
         return fleetService;
@@ -78,16 +78,16 @@ public class FleetService {
     }
 
     public boolean isNotAllowedShips(Fleet fleet) {
-        if(fleet.getFourDeckShipsAmount() != 0) {
+        if (fleet.getFourDeckShipsAmount() != 0) {
             return false;
         }
-        if(fleet.getThreeDeckShipsAmount() != 0) {
+        if (fleet.getThreeDeckShipsAmount() != 0) {
             return false;
         }
-        if(fleet.getDoubleDeckShipsAmount() != 0) {
+        if (fleet.getDoubleDeckShipsAmount() != 0) {
             return false;
         }
-        if(fleet.getSingleDeckShipsAmount() != 0) {
+        if (fleet.getSingleDeckShipsAmount() != 0) {
             return false;
         }
         return true;
