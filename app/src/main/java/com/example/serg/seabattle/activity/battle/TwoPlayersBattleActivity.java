@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.example.serg.seabattle.R;
 import com.example.serg.seabattle.activity.FinalActivity;
 import com.example.serg.seabattle.activity.MainMenuActivity;
+import com.example.serg.seabattle.activity.disposal.FirstPlayerDisposalActivity;
 import com.example.serg.seabattle.activity.disposal.SecondPlayerDisposalActivity;
 import com.example.serg.seabattle.adapter.CellArrayAdapter;
 import com.example.serg.seabattle.common.enums.ColorCellType;
@@ -57,7 +58,7 @@ public class TwoPlayersBattleActivity extends Activity {
     }
 
     private void configureAdapters() {
-        Cell[] firstGridDisposal = getDisposal(SecondPlayerDisposalActivity.INTENT_KEY_1);
+        Cell[] firstGridDisposal = getDisposal(FirstPlayerDisposalActivity.INTENT_KEY_1);
         firstGridAdapter = new CellArrayAdapter(this, firstGridDisposal);
 
         Cell[] secondGridDisposal = getDisposal(SecondPlayerDisposalActivity.INTENT_KEY_2);

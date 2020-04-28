@@ -11,7 +11,7 @@ import com.example.serg.seabattle.R;
 import com.example.serg.seabattle.activity.battle.TwoPlayersBattleActivity;
 import com.example.serg.seabattle.gameplay.entity.Cell;
 
-public class SecondPlayerDisposalActivity extends FirstPlayerDisposalActivity {
+public class SecondPlayerDisposalActivity extends PlayerDisposalActivity {
     public static final String INTENT_KEY_2 = "battlefield_2";
 
     @Override
@@ -29,14 +29,14 @@ public class SecondPlayerDisposalActivity extends FirstPlayerDisposalActivity {
         @Override
         public void onClick(View v) {
             if (isAvailableNextBtnClick()) {
-                Parcelable[] parcelables = getIntent().getParcelableArrayExtra(INTENT_KEY_1);
+                Parcelable[] parcelables = getIntent().getParcelableArrayExtra(FirstPlayerDisposalActivity.INTENT_KEY_1);
                 Cell[] battlefield1 = new Cell[parcelables.length];
                 for (int i = 0; i < parcelables.length; i++) {
                     battlefield1[i] = (Cell) parcelables[i];
                 }
 
                 Intent intent = new Intent(getApplicationContext(), TwoPlayersBattleActivity.class);
-                intent.putExtra(INTENT_KEY_1, battlefield1);
+                intent.putExtra(FirstPlayerDisposalActivity.INTENT_KEY_1, battlefield1);
                 intent.putExtra(INTENT_KEY_2, getCells());
                 SecondPlayerDisposalActivity.super.finish();
                 startActivity(intent);
